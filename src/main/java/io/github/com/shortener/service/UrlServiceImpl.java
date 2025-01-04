@@ -20,6 +20,7 @@ public class UrlServiceImpl implements UrlService{
 			
 			urlToPersist.setCreationDate(LocalDateTime.now());
 			urlToPersist.setExpirationDate(LocalDateTime.now());
+			urlToPersist.
 		
 		}
 		return null;
