@@ -2,14 +2,16 @@ package io.github.com.shortener.model;
 
 import java.time.LocalDateTime;
 
-public class UrlResponseDTO {
+public class UrlResponseDto {
 	private String originalUrl;
 	private String shortLink;
 	private LocalDateTime expriationDate;
 	
 	
-	public UrlResponseDTO(String originalUrl, String shortLink, LocalDateTime expriationDate) {
-		super();
+	public UrlResponseDto() {
+
+	}
+	public UrlResponseDto(String originalUrl, String shortLink, LocalDateTime expriationDate) {
 		this.originalUrl = originalUrl;
 		this.shortLink = shortLink;
 		this.expriationDate = expriationDate;
@@ -34,7 +36,7 @@ public class UrlResponseDTO {
 	}
 	@Override
 	public String toString() {
-		return "UrlResponseDTO [originalUrl=" + originalUrl + ", shortLink=" + shortLink + ", expriationDate="
+		return "UrlResponseDto [originalUrl=" + originalUrl + ", shortLink=" + shortLink + ", expriationDate="
 				+ expriationDate + "]";
 	}
 

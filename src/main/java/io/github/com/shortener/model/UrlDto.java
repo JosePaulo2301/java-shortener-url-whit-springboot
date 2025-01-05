@@ -1,15 +1,16 @@
 package io.github.com.shortener.model;
 
 
-public class UrlDTO {
+public class UrlDto{
 
 	private String url;
 	private String expirationDate;
 	
 	
 	
-	public UrlDTO(String url, String expirationDate) {
-		super();
+	public UrlDto() {
+	}
+	public UrlDto(String url, String expirationDate) {
 		this.url = url;
 		this.expirationDate = expirationDate;
 	}

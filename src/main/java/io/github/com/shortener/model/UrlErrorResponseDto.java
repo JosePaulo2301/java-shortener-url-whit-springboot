@@ -1,10 +1,15 @@
 package io.github.com.shortener.model;
 
-public class UrlErrorResponseDTO {
+public class UrlErrorResponseDto {
 	private String status;
 	private String error;
-	public UrlErrorResponseDTO(String status, String error) {
-		super();
+	
+	
+	
+	public UrlErrorResponseDto() {
+
+	}
+	public UrlErrorResponseDto(String status, String error) {
 		this.status = status;
 		this.error = error;
 	}

@@ -4,26 +4,48 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.google.common.hash.Hashing;
 
 import io.github.com.shortener.model.Url;
-import io.github.com.shortener.model.UrlDTO;
+import io.github.com.shortener.model.UrlDto;
+import io.github.com.shortener.repository.UrlRepository;
 
+@Component
 public class UrlServiceImpl implements UrlService{
 
+	@Autowired
+	private UrlRepository urlRepository;
+			
 	@Override
-	public Url generatedShortLink(UrlDTO urlDto) {
-		if(StringUtils.isNotEmpty(urlDto.getUrl())) {
-			String encodeUrl = encodeUrl(urlDto.getUrl());
+	public Url generatedShortLink(UrlDto UrlDto) {
+		if(StringUtils.isNotEmpty(UrlDto.getUrl())) {
+			String encodeUrl = encodeUrl(UrlDto.getUrl());
 			Url urlToPersist = new Url();
 			
 			urlToPersist.setCreationDate(LocalDateTime.now());
-			urlToPersist.setExpirationDate(LocalDateTime.now());
-			urlToPersist.
-		
+			urlToPersist.setShortLink(encodeUrl);
+			urlToPersist.setOriginalUrl(UrlDto.getUrl());
+			urlToPersist.setExpirationDate(getExpirationDate(UrlDto.getExpirationDate(), urlToPersist.getCreationDate()));
+			Url urlToRet = persistShortLink(urlToPersist);
+			
+			if(urlToRet != null) 
+				return urlToRet;
+				
+			return null;
 		}
 		return null;
+	}
+
+	private LocalDateTime getExpirationDate(String expirationDate, LocalDateTime creationDate) {
+		
+		if (StringUtils.isBlank(expirationDate) ) {
+			return creationDate.plusSeconds(60);
+		}
+		LocalDateTime expirationDateToRet = LocalDateTime.parse(expirationDate);
+		return expirationDateToRet;
 	}
 
 	private String encodeUrl(String url) {
@@ -39,20 +61,20 @@ public class UrlServiceImpl implements UrlService{
 
 	@Override
 	public Url persistShortLink(Url url) {
-		// TODO Auto-generated method stub
-		return null;
+		Url urlToRet = urlRepository.save(url);
+	
+		return urlToRet;
 	}
 
 	@Override
 	public Url getEncodedURl(String url) {
-		// TODO Auto-generated method stub
-		return null;
+		Url urlToRet = urlRepository.findByShortLink(url);
+		return urlToRet;
 	}
 
 	@Override
 	public void deletShortLink(Url url) {
-		// TODO Auto-generated method stub
-		
+		urlRepository.delete(url);
 	}
 
 }
