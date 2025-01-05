@@ -1,5 +1,6 @@
 package io.github.com.shortener.Controller;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.StringUtils;
@@ -17,7 +18,7 @@ import io.github.com.shortener.model.UrlDto;
 import io.github.com.shortener.model.UrlErrorResponseDto;
 import io.github.com.shortener.model.UrlResponseDto;
 import io.github.com.shortener.service.UrlService;
-
+import jakarta.servlet.http.HttpServletResponse;
 @RestController
 public class UrlShorteningController {
 
@@ -43,33 +44,37 @@ public class UrlShorteningController {
 		return new ResponseEntity<UrlErrorResponseDto>(errorResponseDto, HttpStatus.OK);
 	}
 	
-	@GetMapping("/{shortLink}")
-	public ResponseEntity<?> redirectToOriginalUrl(@PathVariable String shorLink) {
-		
-		if (StringUtils.isEmpty(shorLink)) {
-			UrlErrorResponseDto urlErrorResponseDto = new UrlErrorResponseDto();
-			urlErrorResponseDto.setError("Invalid Url");
-			urlErrorResponseDto.setStatus("400");
-			return new ResponseEntity<UrlErrorResponseDto>(urlErrorResponseDto, HttpStatus.OK); 
-		}
-		
-		Url urlToRet = urlService.getEncodedURl(shorLink);
-		
-		if (urlToRet != null) {
-			UrlErrorResponseDto urlErrorResponseDto = new UrlErrorResponseDto();
-			urlErrorResponseDto.setError("Url does exit or it might have expired!");
-			urlErrorResponseDto.setStatus("400");
-			return new ResponseEntity<UrlErrorResponseDto>(urlErrorResponseDto, HttpStatus.OK); 
-		}
-		
-		if(urlToRet.getExpirationDate().isBefore(LocalDateTime.now())) {
-			UrlErrorResponseDto urlErrorResponseDto = new UrlErrorResponseDto();
-			urlErrorResponseDto.setError("Url expired. Please try generating a fresh one.");
-			urlErrorResponseDto.setStatus("200");
-			return new ResponseEntity<UrlErrorResponseDto>(urlErrorResponseDto, HttpStatus.OK); 
-		}
-		
-		response
-	}
+    @GetMapping("/{shortLink}")
+    public ResponseEntity<?> redirectToOriginalUrl(@PathVariable String shortLink, HttpServletResponse response) throws IOException {
+
+        if(StringUtils.isEmpty(shortLink))
+        {
+            UrlErrorResponseDto urlErrorResponseDto = new UrlErrorResponseDto();
+            urlErrorResponseDto.setError("Invalid Url");
+            urlErrorResponseDto.setStatus("400");
+            return new ResponseEntity<UrlErrorResponseDto>(urlErrorResponseDto,HttpStatus.OK);
+        }
+        Url urlToRet = urlService.getEncodedURl(shortLink);
+
+        if(urlToRet == null)
+        {
+            UrlErrorResponseDto urlErrorResponseDto = new UrlErrorResponseDto();
+            urlErrorResponseDto.setError("Url does not exist or it might have expired!");
+            urlErrorResponseDto.setStatus("400");
+            return new ResponseEntity<UrlErrorResponseDto>(urlErrorResponseDto,HttpStatus.OK);
+        }
+
+        if(urlToRet.getExpirationDate().isBefore(LocalDateTime.now()))
+        {
+            urlService.deletShortLink(urlToRet);
+            UrlErrorResponseDto urlErrorResponseDto = new UrlErrorResponseDto();
+            urlErrorResponseDto.setError("Url Expired. Please try generating a fresh one.");
+            urlErrorResponseDto.setStatus("200");
+            return new ResponseEntity<UrlErrorResponseDto>(urlErrorResponseDto,HttpStatus.OK);
+        }
+
+        response.sendRedirect(urlToRet.getOriginalUrl());
+        return null;
+    }
 	
 }
