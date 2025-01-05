@@ -28,10 +28,9 @@ spring.datasource.driver-class-name=org.h2.Driver
 
 Para acessar o console do H2, visite [http://localhost:8080/h2-console](http://localhost:8080/h2-console).
 
-### Dependências Principais
+### ⚗️ Dependências Principais
 - **Spring Boot Starter Web**: Para criar a API REST.
 - **Spring Boot Starter Data JPA**: Para persistência de dados.
-- **Spring Boot Starter Thymeleaf**: Para renderização de templates (se aplicável).
 - **H2 Database**: Banco de dados em memória.
 - **Spring Boot DevTools**: Para agilizar o desenvolvimento com recarregamento automático.
 - **Apache Commons Lang 3**: Utilitários para operações com strings.
