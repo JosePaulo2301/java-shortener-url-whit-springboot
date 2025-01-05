@@ -4,7 +4,7 @@
 Uma aplicação simples para encurtar URLs, desenvolvida usando o framework Spring Boot.
 Permite gerar links encurtados e redirecioná-los para a URL original.
 
-## Estrutura do Projeto
+## 📦️ Estrutura do Projeto
 O projeto segue a seguinte organização de pacotes:
 - **Controller**: Responsável pelos endpoints REST e interação com o cliente.
 - **Model**: Contém as classes de modelo e entidades do banco de dados.
@@ -13,7 +13,7 @@ O projeto segue a seguinte organização de pacotes:
 
 ## Configuração
 
-### Banco de Dados
+### 🗃️ Banco de Dados
 A aplicação usa o banco de dados em memória H2. As configurações estão no arquivo `application.properties`:
 
 ```properties
