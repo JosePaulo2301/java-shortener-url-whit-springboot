@@ -84,6 +84,6 @@ Para executar os testes:
 mvn test
 ```
 
-## Contribuições
+## 🧑‍💻 Contribuições
 Sinta-se livre para sugerir ou melhorar o código, aceito sugestões e aprendo a lidar com os erros. 
 
