@@ -1,4 +1,4 @@
-# Link Shortener Application
+# 🚀 Link Shortener Application
 
 ## Descrição
 Uma aplicação simples para encurtar URLs, desenvolvida usando o framework Spring Boot.
@@ -26,7 +26,7 @@ spring.datasource.password=
 spring.datasource.driver-class-name=org.h2.Driver
 ```
 
-Para acessar o console do H2, visite [http://localhost:8080/h2](http://localhost:8080/h2).
+Para acessar o console do H2, visite [http://localhost:8080/h2-console](http://localhost:8080/h2-console).
 
 ### Dependências Principais
 - **Spring Boot Starter Web**: Para criar a API REST.
@@ -51,7 +51,7 @@ Para acessar o console do H2, visite [http://localhost:8080/h2](http://localhost
 
 A aplicação será executada em [http://localhost:8080](http://localhost:8080).
 
-## Endpoints
+## 🌐 Endpoints
 
 ### Gerar URL Encurtada
 **POST** `/generate`
